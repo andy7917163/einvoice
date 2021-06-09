@@ -1,0 +1,40 @@
+{
+    "name": "andy7917163/einvoice",
+    "description": "Taiwan einvoice for laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andy Huang",
+            "email": "andy7917163@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7",
+        "guzzlehttp/guzzle": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Andy7917163\\Einvoice\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Andy7917163\\Einvoice\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Andy7917163\\Einvoice\\EinvoiceServiceProvider"
+            ],
+            "aliases": {
+                "Einvoice": "Andy7917163\\Einvoice\\Facades\\Einvoice"
+            }
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.18",
+        "ext-http": "7.2"
+    }
+}
