@@ -208,7 +208,7 @@ class Einvoice
                 'connect_timeout' => 60
             ]);
 
-            $this->invoice_info = json_decode($response->getBody());
+            $this->invoice_info = json_decode($response->getBody(), true);
 
         } catch (ConnectException $requestException) {
             $this->invoice_info = $requestException->getMessage();
