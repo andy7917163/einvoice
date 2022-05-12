@@ -62,7 +62,8 @@ class Einvoice
         $this->appID = $appID;
         $this->UUID = (string) Str::uuid();
         $this->cardType = '3J0002';
-        $this->timeStamp = strval(time() + $this->timeStampDelay);
+        $this->timeStamp = strval(time());
+        $this->expTimeStamp = strval(time() + $this->timeStampDelay);
         $this->invoice_info = null;
     }
 
