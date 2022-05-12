@@ -51,7 +51,7 @@ class Einvoice
 
     private $expTimeStamp = '2147483647';
 
-    private $timeStampDelay = 180;
+    private $timeStampDelay = 1800;
 
     private $invoice_info;
 
