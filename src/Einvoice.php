@@ -49,11 +49,13 @@ class Einvoice
 
     public $invDate;
 
-    private $expTimeStamp = '2147483647';
+    private $expTimeStamp;
 
     private $timeStampDelay = 180;
 
     private $invoice_info;
+
+    private $error;
 
     public function __construct($appID)
     {
@@ -97,6 +99,11 @@ class Einvoice
     {
         $this->getCarrierInvDetail();
         return $this->invoice_info;
+    }
+
+    public function getError()
+    {
+        return $this->error;
     }
 
     private function getInvoiceInfo()
@@ -189,17 +196,6 @@ class Einvoice
     private function doRequest($queryData)
     {
         try {
-            $url = $this->base_uri.$this->uri;
-//            $response = Http::withOptions([
-//                'curl' => [
-//                    CURLOPT_SSL_CIPHER_LIST => "TLSv1",
-//                ],
-//            ])->post($url.'?'.http_build_query($queryData));
-//
-//            $response->throw();
-//
-//            $this->invoice_info = $response->json();
-
             $client = new Client(['base_uri' => $this->base_uri]);
             $response = $client->request('POST', $this->uri, [
                 'curl' => [
@@ -211,10 +207,12 @@ class Einvoice
 
             $this->invoice_info = json_decode($response->getBody(), true);
 
-        } catch (ConnectException $requestException) {
-            $this->invoice_info = $requestException->getMessage();
-        } catch (HttpException $httpException) {
-            $this->invoice_info = $httpException->getMessage();
+        } catch (\Throwable $e) {
+            $this->error = [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ];
+            $this->invoice_info = false;
         }
     }
 }
