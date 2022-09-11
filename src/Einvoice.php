@@ -53,6 +53,8 @@ class Einvoice
 
     private $timeStampDelay = 180;
 
+    private $timeStampExp = 1800;
+
     private $invoice_info;
 
     private $error;
@@ -150,8 +152,8 @@ class Einvoice
     {
         $this->uri = '/PB2CAPIVAN/invServ/InvServ';
         $this->action = 'carrierInvChk';
-        $this->timeStamp = strval(time());
-        $this->expTimeStamp = strval(time() + $this->timeStampDelay);
+        $this->timeStamp = strval(time() + $this->timeStampDelay);
+        $this->expTimeStamp = strval(time() + $this->timeStampExp);
 
         $queryData = [
             'version' =>        $this->version,
@@ -175,8 +177,8 @@ class Einvoice
     {
         $this->uri = '/PB2CAPIVAN/invServ/InvServ';
         $this->action = 'carrierInvDetail';
-        $this->timeStamp = strval(time());
-        $this->expTimeStamp = strval(time() + $this->timeStampDelay);
+        $this->timeStamp = strval(time() + $this->timeStampDelay);
+        $this->expTimeStamp = strval(time() + $this->timeStampExp);
 
         $queryData = [
             'version' =>        $this->version,
