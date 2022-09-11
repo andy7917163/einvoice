@@ -51,7 +51,7 @@ class Einvoice
 
     private $expTimeStamp;
 
-    private $timeStampDelay = 1800;
+    private $timeStampDelay = 180;
 
     private $invoice_info;
 
@@ -64,8 +64,6 @@ class Einvoice
         $this->appID = $appID;
         $this->UUID = (string) Str::uuid();
         $this->cardType = '3J0002';
-        $this->timeStamp = strval(time());
-        $this->expTimeStamp = strval(time() + $this->timeStampDelay);
         $this->invoice_info = null;
     }
 
@@ -152,6 +150,8 @@ class Einvoice
     {
         $this->uri = '/PB2CAPIVAN/invServ/InvServ';
         $this->action = 'carrierInvChk';
+        $this->timeStamp = strval(time());
+        $this->expTimeStamp = strval(time() + $this->timeStampDelay);
 
         $queryData = [
             'version' =>        $this->version,
@@ -175,6 +175,8 @@ class Einvoice
     {
         $this->uri = '/PB2CAPIVAN/invServ/InvServ';
         $this->action = 'carrierInvDetail';
+        $this->timeStamp = strval(time());
+        $this->expTimeStamp = strval(time() + $this->timeStampDelay);
 
         $queryData = [
             'version' =>        $this->version,
