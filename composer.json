@@ -35,6 +35,6 @@
     },
     "require-dev": {
         "orchestra/testbench": "^6.18",
-        "ext-http": "7.2"
+        "ext-http": "7.4.*"
     }
 }

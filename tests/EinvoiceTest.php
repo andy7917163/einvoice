@@ -11,15 +11,22 @@ final class EinvoiceTest extends TestCase
 {
     public function testCanInvoiceDetails()
     {
-        $appID = 'EINV1202001234567';
+        $appID = 'EINV1202007279345';
         $client = Einvoice::fromAppId($appID);
-        $client->invNum = 'FB89333038';
-        $client->invTerm = '10910';
-        $client->randomNumber = '1235';
+        $client->invNum = 'GL53778311';
+//        $client->invTerm = '11112';
+        $client->invTerm = '2022/12/02';
+        $client->randomNumber = '5923';
 
-        $json = '{"msg":"執行成功","code":"200","invNum":"FB89333038","invoiceTime":"15:13:00","invStatus":"已確認","sellerName":"全家便利商店股份有限公司基隆市第五門市部","invPeriod":"10910","sellerAddress":"基隆市中正區北寧路２號","sellerBan":"42092179","buyerBan":"","currency":"","details":[{"unitPrice":"35","amount":"70","quantity":"2","rowNum":"1","description":"舒味思萊姆口味氣泡水"},{"unitPrice":"0","amount":"-35","quantity":"1","rowNum":"2","description":"會員促"}],"invDate":"20201028"}';
+        $json = '{"msg":"執行成功","code":"200","invNum":"GL53778311","invoiceTime":"10:51:06","invStatus":"已確認","sellerName":"全聯實業股份有限公司屏東大連分公司","invPeriod":"11112","sellerAddress":"屏東縣屏東市大連路21號","sellerBan":"28414044","buyerBan":"","v":"0.5","currency":"","invDate":"20221202"}';
+        $head = json_encode($client->getHead());
+        $this->assertJsonStringEqualsJsonString($json, $head);
 
-        $this->assertJsonStringEqualsJsonString($json, json_encode($client->getInvoice()));
+        if (isset($head->invPeriod)) {
+            $client->invTerm = $head->invPeriod;
+            $json = '{"msg":"執行成功","code":"200","invNum":"GL53778311","invoiceTime":"10:51:06","invStatus":"已確認","sellerName":"全聯實業股份有限公司屏東大連分公司","invPeriod":"11112","sellerAddress":"屏東縣屏東市大連路21號","sellerBan":"28414044","buyerBan":"","currency":"","details":[{"unitPrice":"699","amount":"699","quantity":"1","rowNum":"001","description":"克寧奶粉"}],"invDate":"20221202"}';
+            $this->assertJsonStringEqualsJsonString($json, json_encode($client->getInvoice()));
+        }
     }
 
     public function testCanBeCreatedFromAppId()

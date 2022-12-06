@@ -198,11 +198,9 @@ class Einvoice
         try {
             $client = new Client(['base_uri' => $this->base_uri]);
             $response = $client->request('POST', $this->uri, [
-                'curl' => [
-                    CURLOPT_SSL_CIPHER_LIST => "TLSv1",
-                ],
                 'query' => $queryData,
-                'connect_timeout' => 60
+                'connect_timeout' => 60,
+                'verify' => true
             ]);
 
             $this->invoice_info = json_decode($response->getBody(), true);
