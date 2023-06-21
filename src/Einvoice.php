@@ -2,14 +2,9 @@
 
 namespace Andy7917163\Einvoice;
 
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\InvalidArgumentException;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Einvoice
 {
@@ -59,6 +54,8 @@ class Einvoice
 
     private $error;
 
+    private $connect_timeout = 30;
+
     public function __construct($appID)
     {
         $this->base_uri = 'https://api.einvoice.nat.gov.tw';
@@ -69,10 +66,13 @@ class Einvoice
         $this->invoice_info = null;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function fromAppId($appID): Einvoice
     {
         if (!$appID) {
-            throw new InvalidArgumentException('AppID invalid.');
+            throw new Exception('AppID invalid.');
         }
         return new self($appID);
     }
@@ -104,6 +104,11 @@ class Einvoice
     public function getError()
     {
         return $this->error;
+    }
+
+    public function setTimeOut(int $second)
+    {
+        $this->connect_timeout = $second;
     }
 
     private function getInvoiceInfo()
@@ -203,7 +208,7 @@ class Einvoice
             $client = new Client(['base_uri' => $this->base_uri]);
             $response = $client->request('POST', $this->uri, [
                 'query' => $queryData,
-                'connect_timeout' => 60,
+                'connect_timeout' => $this->connect_timeout,
                 'verify' => true
             ]);
 

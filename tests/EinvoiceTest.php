@@ -4,7 +4,6 @@
 namespace Andy7917163\Einvoice\Tests;
 
 use Andy7917163\Einvoice\Einvoice;
-use GuzzleHttp\Exception\InvalidArgumentException;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 final class EinvoiceTest extends TestCase
@@ -13,6 +12,7 @@ final class EinvoiceTest extends TestCase
     {
         $appID = 'EINV1202007279345';
         $client = Einvoice::fromAppId($appID);
+        $client->setTimeOut(10);
         $client->invNum = 'GL53778311';
 //        $client->invTerm = '11112';
         $client->invTerm = '2022/12/02';
@@ -39,7 +39,7 @@ final class EinvoiceTest extends TestCase
 
     public function testCanNotBeCreatedFromNullAppId()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\Exception::class);
         Einvoice::fromAppId(null);
     }
 }
